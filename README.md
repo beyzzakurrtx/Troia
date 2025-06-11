@@ -1,4 +1,5 @@
 ✉️ Troia – Otomatik E-Posta Gönderim Fonksiyonu
+
 Bu kod parçası, Canias ERP üzerinde TROIA dili kullanılarak geliştirilmiş, sistemde kayıtlı kullanıcı bilgileri ve önceden tanımlanmış şablonlar kullanılarak otomatik HTML formatında e-posta 
 gönderimi yapan fonksiyondur.
 
