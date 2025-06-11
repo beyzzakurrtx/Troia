@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INVT05 - Log Kaydı</title>
+    <style>
+        a:link, a:visited, a:active {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #373737;
+        }
+
+        p {
+            line-height: 14px;
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+            height: 10px;
+        }
+
+        .content {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .content th, .content td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #000000;
+            white-space: nowrap;
+            font-size: 15px;
+            font-family: Arial;
+        }
+
+        .content th {
+            background-color: #f2f2f2;
+        }
+
+        .content td span.variable {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .content td:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+
+<body style="background-color:#FFFFFF;">
+
+    <!-- Başlık -->
+    <table align="left" bgcolor="#ffffff" border="0" cellspacing="0" class="content">
+        <tr>
+            <td align="left" style="font-size:18px; font-family:Arial; padding: 10px 10px 10px 1px">
+                <b>INVT05 - Log Kaydı<br></b>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Log Bilgileri Alt Alta -->
+    <table align="left" bgcolor="#ffffff" border="0" cellspacing="0" class="content">
+        <tr>
+            <td><b>Kullanıcı:</b></td>
+            <td><span class="variable">#CLKUSER#</span></td>
+        </tr>
+        <tr>
+            <td><b>Şifre:</b></td>
+            <td><span class="variable">#CLKUSERPASS#</span></td>
+        </tr>
+         <tr>
+            <td><b>Tarih:</b></td>
+            <td><span class="variable">#CLKREQUESTTIME#</span></td>
+        </tr>
+         <tr>
+            <td><b>Parti No:</b></td>
+            <td><span class="variable">#CLKBATCHNUM#</span></td>
+        </tr>
+        <tr>
+                <td colspan="2"><b>INVT05 üzerinden yukarıda detayları bulunan etiket çıkartılmıştır.</b></td>
+         </tr>
+    </table>
+
+ 
+
+</body>
+</html>
