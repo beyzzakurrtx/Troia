@@ -1,54 +1,67 @@
+# 📦 Parçaların Sevkiyat İçin Depoda Bekleme Süresini Otomatik Mail Atarak Raporlayan Sistem
 
-# 🔧 Troia – Fire Oranları Raporu
+## 📌 Proje Hakkında
 
-Bu proje, **Canias ERP** üzerinde **TROIA** dili kullanılarak geliştirilmiş bir rapor ekranıdır.  
-Amaç, üretim sürecinde çeşitli noktalarda oluşan **firelerin** fire tipine göre **fire oranlarını** ve ilgili üretim bilgilerini detaylı bir şekilde raporlamaktır.
+Bu proje, üretim yapan ve ürünlerini stoklu çalışan firmalar için yaygın bir ihtiyaca çözüm sunar. Üretim sonucunda oluşan paketlenmiş ürünler, genellikle **SVK** gibi özel depolarda tutulur. Bu ürünler, sipariş geldikçe irsaliyelendirilerek sevk edilir. Ancak bazı ürünler uzun süre depoda bekleyebilir ve bu durum ürünün kalite standartlarını etkileyebilir (örneğin; deformasyon, bozulma, geçerliliğini yitirme, oksitlenme vb.).
 
----
-
-## 📊 Rapor İçeriği
-
-Rapor aşağıdaki bilgileri hesaplar ve kullanıcıya sunar:
-
-- Fire tipi (`REWORKKEY`) bazlı gruplanmış veri
-- Her fire tipi için:
-  - Fire miktarı
-  - Onaylanmış üretim miktarı
-  - Fire oranı (yüzde)
-- Genel fire oranı (toplam bazda)
-- Görsel ayrıştırma: Fire tipi bazlı ara toplam satırları **sarı arka plan** ile vurgulanır
-- Her satır için toplam içerisindeki fire yüzdesi
+Bu ihtiyaca yönelik olarak geliştirilen bu sistem sayesinde:
+- Belirli bir süreden (örneğin 1 yıl) uzun süredir **SVK deposunda** bekleyen parçalar tespit edilir,
+- Bu parçalara ait **malzeme kodu, parti numarası, son işlem tarihi** gibi bilgiler toplanır,
+- HTML formatında tablo satırları oluşturularak otomatik bir e-posta içeriği hazırlanır,
+- Kalite ve bilgi işlem gibi ilgili departmanlara otomatik e-posta gönderimi yapılır.
 
 ---
 
 ## ⚙️ Kullanılan Teknolojiler
 
-- Canias ERP (TROIA dili)
-- Dahili değişken ve tablo işlemleri
-- Renkli satır ayırma (highlighting)
-- Veri toplama ve oran hesaplama algoritmaları
+- **TROIA  Dili** 
+- SQL sorguları 
+- Otomatik e-posta gönderimi için `SENDMAIL` komutu
+- Dinamik HTML tablo satırları üretimi
+- Canias ERP Destek Tabloları
 
 ---
 
-## 🖼️ Ekran Görüntüsü
+## 🚀 Özellikler
 
-Aşağıda rapor ekranının örnek görünümü yer almaktadır:
-
-![reworkreport1](https://github.com/user-attachments/assets/ca08d97a-e32e-4f25-8e1a-d14c5e8821ac)
-
----
-
-## 📌 Teknik Notlar
-
-- Kodda geçici tablo olarak `REPORTTABLETMP`, rapor tablosu olarak `REPORTTABLE` kullanılmaktadır.
-- `LOOP` ve `LOCATERECORD` yapıları ile veriler filtrelenip gruplanır.
-- `SETBACKCOLOR TO YELLOW` komutu ile sarı ara toplam satırları eklenir.
-- Toplam hesapları `TOTALR`, `TOTALRO`, `SUMREWORKRATE` gibi değişkenler ile yönetilir.
+- **SVK deposunda** bulunan ve:
+  - Malzeme kodu 16 karakter olan,
+  - Stok yeri `P` ile başlayan,
+  - 1 yıldan fazla süredir hareket görmemiş olan,
+  - Geçerli bir irsaliye ile çıkışı yapılmamış ürünler sistem tarafından tespit edilir.
+- Ürünlere ait bilgiler, SQL sorguları aracılığıyla ilgili tablolardan çekilir.
+- E-posta şablonunda `#TABLEROWS#` etiketi yerine dinamik olarak oluşturulmuş tablo satırları yerleştirilir.
+- Mail, tanımlı kullanıcı adı, şifre, host ve TLS protokolü kullanılarak güvenli şekilde gönderilir(Canias içerisindeki destek tablosuna girilen veilerden alınır.).
 
 ---
 
-## 👩‍💻 Geliştirici Notu
+## 📧 Otomatik Gönderilen E-Posta İçeriği
 
-Bu rapor, Canias kullanıcılarının fire analizlerini daha etkin ve görsel olarak takip edebilmelerini sağlamak amacıyla geliştirilmiştir.
+| Malzeme Kodu | Çizim No / Malzeme | Parti No | Son İşlem Tarihi |
+|--------------|--------------------|----------|-------------------|
+| 1234567890123456 | DRAW-001           | B12345   | 15.04.2023        |
+| ...          | ...                | ...      | ...               |
+
+Bu yapı sayesinde kalite güvence ekipleri, deforme olabilecek ürünler için erken aksiyon alabilir.
 
 ---
+
+## 🛠 Kurulum ve Kullanım
+
+Bu sistem, **Canias ERP** üzerinde çalışacak şekilde yazılmıştır. Kurulum için:
+1. Oluşturulan bir dialogun SYST00 ekranından Dialogun Toplu İşlemler alanında bu fonksiyon çalıştırılır.
+-*-*-*
+THIS.STOCKWAITINFORM();
+SHUTDOWN;
+-*-*-*
+2. Gönderim yapılacak adresleri ve şablon metnini `IASCLB011` ve `IASBPM012` tablolarında tanımlayın. (Destek Tabloları)
+3. Otomatik çalıştırılması için sistemde bir BATCH tanımı yapılabilir, bu işlem zamanlanmış bir görev (JOB) ile veya manuel olarak çalıştırılabilir.
+
+---
+
+## 👩‍💼 Kullanım Senaryosu
+
+> “SVK deposunda bekleyen parçaların bir süredir hareket görmediğini ve kalite riski taşıyabileceğini fark ettik. Artık sistemimiz bu parçaları otomatik olarak tespit edip, ilgili kişilere raporlayarak zamanında müdahale imkanı sağlıyor.”
+
+---
+
