@@ -1,7 +1,7 @@
 
 # 🔧 Troia – Delete Butonu
 
-Bu proje, **Canias ERP** üzerinde **TROIA** dili kullanılarak geliştirilmiş bir ekran da seçilmiş tüm satırları tablodan silen DELETE butonu Click Kodunu paylaşıyorum.  
+ **Canias ERP** üzerinde **TROIA** dili kullanılarak geliştirilmiş bir ekran da seçilmiş tüm satırları tablodan silen DELETE butonu Click Kodunu paylaşıyorum.  
 
 ------------------------------------------------------------
 
