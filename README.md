@@ -1,54 +1,97 @@
 
-# 🔧 Troia – Fire Oranları Raporu
+# 🔧 Troia – Temel Kontrol Yapıları
 
-Bu proje, **Canias ERP** üzerinde **TROIA** dili kullanılarak geliştirilmiş bir rapor ekranıdır.  
-Amaç, üretim sürecinde çeşitli noktalarda oluşan **firelerin** fire tipine göre **fire oranlarını** ve ilgili üretim bilgilerini detaylı bir şekilde raporlamaktır.
+Troia IDE’de kullanılan temel kontrol yapıları ve döngülerin örneklerini içermektedir. Aşağıdaki yapılar ele alınmıştır:
 
----
+IF / ELSE / ENDIF:
 
-## 📊 Rapor İçeriği
+          IF A == 1 THEN
+                        RESULT = 'A equals to one';
+                ELSE
+                        IF A < 1 THEN
+                                RESULT = 'A is less than one';
+                        ELSE
+                                RESULT = 'A is more than one';
+                        ENDIF;
+                ENDIF;
 
-Rapor aşağıdaki bilgileri hesaplar ve kullanıcıya sunar:
 
-- Fire tipi (`REWORKKEY`) bazlı gruplanmış veri
-- Her fire tipi için:
-  - Fire miktarı
-  - Onaylanmış üretim miktarı
-  - Fire oranı (yüzde)
-- Genel fire oranı (toplam bazda)
-- Görsel ayrıştırma: Fire tipi bazlı ara toplam satırları **sarı arka plan** ile vurgulanır
-- Her satır için toplam içerisindeki fire yüzdesi
 
----
 
-## ⚙️ Kullanılan Teknolojiler
+SWITCH / CASE / DEFAULT / ENDSWITCH :
 
-- Canias ERP (TROIA dili)
-- Dahili değişken ve tablo işlemleri
-- Renkli satır ayırma (highlighting)
-- Veri toplama ve oran hesaplama algoritmaları
+          OBJECT:
+                STRING VAR,
+                STRING RESULT;
+        VAR = '8';
+        
+        SWITCH VAR
+            CASE 5:         RESULT = 'It is five';
+            CASE 6:         RESULT = 'It is six';
+            CASE '7','8':   RESULT = 'It is seven or eight';
+            DEFAULT:        RESULT = 'I do not know what it is.';
+        ENDSWITCH;
 
----
 
-## 🖼️ Ekran Görüntüsü
 
-Aşağıda rapor ekranının örnek görünümü yer almaktadır:
+LOOP AT / ENDLOOP:
 
-![reworkreport1](https://github.com/user-attachments/assets/ca08d97a-e32e-4f25-8e1a-d14c5e8821ac)
+        LOOP AT TMPTABLE
+        BEGIN
+            /* Burada her satır için yapılacak işlemler */
+        ENDLOOP;
 
----
+        
 
-## 📌 Teknik Notlar
+WHILE / ENDWHILE :
 
-- Kodda geçici tablo olarak `REPORTTABLETMP`, rapor tablosu olarak `REPORTTABLE` kullanılmaktadır.
-- `LOOP` ve `LOCATERECORD` yapıları ile veriler filtrelenip gruplanır.
-- `SETBACKCOLOR TO YELLOW` komutu ile sarı ara toplam satırları eklenir.
-- Toplam hesapları `TOTALR`, `TOTALRO`, `SUMREWORKRATE` gibi değişkenler ile yönetilir.
+                OBJECT:
+                INTEGER VAR,
+                STRING RESULT;
+        VAR = 1;
+        RESULT = '';
+        
+        WHILE VAR < 10
+        BEGIN
+            IF VAR % 2 == 0 THEN
+                RESULT = RESULT + VAR + ':even, ';
+            ELSE
+                RESULT = RESULT + VAR + ':odd, ';
+            ENDIF;
+            VAR = VAR + 1;
+        ENDWHILE;
 
----
+BREAK ve CONTINUE kullanımı :
 
-## 👩‍💻 Geliştirici Notu
+                 OBJECT:
+                INTEGER INDEXNUM,
+                INTEGER ODDNUMBERSTOTAL,
+                STRING ODDNUMBERS;
+        
+        ODDNUMBERSTOTAL = 0;
+        INDEXNUM = 0;
+        ODDNUMBERS = '';
+        
+        WHILE 1 == 1
+        BEGIN
+            INDEXNUM = INDEXNUM + 1;
+        
+            /* Döngüyü 10’da kır */
+            IF INDEXNUM == 10 THEN
+                BREAK;
+            ENDIF;
+        
+            /* Çift sayılarda döngü başına atla */
+            IF INDEXNUM % 2 == 0 THEN
+                CONTINUE;
+            ENDIF;
+        
+            ODDNUMBERSTOTAL = ODDNUMBERSTOTAL + INDEXNUM;
+            ODDNUMBERS = ODDNUMBERS + INDEXNUM + ',';
+        ENDWHILE;
 
-Bu rapor, Canias kullanıcılarının fire analizlerini daha etkin ve görsel olarak takip edebilmelerini sağlamak amacıyla geliştirilmiştir.
+Döngü 10’a ulaştığında BREAK ile sonlandırılır.
 
----
+Çift sayılar CONTINUE ile atlanır, sadece tek sayılar toplanır ve stringe eklenir.
+
+
